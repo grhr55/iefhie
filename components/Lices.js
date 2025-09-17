@@ -15,7 +15,6 @@ mongoose.connect(process.env.MONGODB_URI)
 
 
 const LiceSchema = new mongoose.Schema({
-  deviceId: { type: String, required: false }, 
   productId: { type: String, required: true },
   likeCount: { type: Number, default: 0 },
   dizlace: { type: Number, default: 0 },
@@ -44,7 +43,7 @@ app.get('/lice/:productId', async (req, res) => {
 
 app.post('/reaction', async (req, res) => {
   try {
-    const { deviceId, productId, likeCount, dizlace, views } = req.body;
+    const {  productId, likeCount, dizlace, views } = req.body;
 
     const update = {
       $set: {
