@@ -44,13 +44,12 @@ app.get('/lice/:productId', async (req, res) => {
 
 app.post('/reaction', async (req, res) => {
   try {
-    const { deviceId, productId, likeCount, dizlace,  views } = req.body;
+    const { deviceId, productId, likeCount, dizlace, views } = req.body;
 
     const update = {
       $set: {
         likeCount: likeCount || 0,
         dizlace: dizlace || 0,
-    
       }
     };
 
@@ -58,8 +57,9 @@ app.post('/reaction', async (req, res) => {
       update.$inc = { views: views };
     }
 
+    // апдейтим только по продукту
     const updated = await Lices.findOneAndUpdate(
-      { deviceId, productId },
+      { productId }, // вместо deviceId
       update,
       { new: true, upsert: true }
     );
@@ -69,6 +69,7 @@ app.post('/reaction', async (req, res) => {
     res.status(500).json({ error: 'Не удалось сохранить реакцию' });
   }
 });
+
 
 
 
