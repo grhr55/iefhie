@@ -46,7 +46,7 @@ app.post("/reaction", async (req, res) => {
     const { deviceId, productId, likeCount = 0, dizlace = 0, views = 0 } = req.body;
 
   
-    let record = await Reaction.findOne({ deviceId, productId });
+    let record = await Lices.findOne({ deviceId, productId });
 
     if (record) {
   
