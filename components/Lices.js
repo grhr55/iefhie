@@ -29,9 +29,10 @@ const Lices = mongoose.model('Lices', LiceSchema);
 
 
 
+
 app.get('/lice/:productId', async (req, res) => {
   try {
-    const productId = await Portf.find().sort({ createdAt: -1 });
+    const productId = await Lices.find().sort({ createdAt: -1 });
     res.json(productId);
   } catch (err) {
     res.status(500).json({ error: err.message });
