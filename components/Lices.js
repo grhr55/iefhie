@@ -15,6 +15,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 
 const LiceSchema = new mongoose.Schema({
+  deviceId: { type: String, required: false }, 
   productId: { type: String, required: true },
   likeCount: { type: Number, default: 0 },
   dizlace: { type: Number, default: 0 },
@@ -40,32 +41,28 @@ app.get('/lice/:productId', async (req, res) => {
 
 
 
-
-app.post('/reaction', async (req, res) => {
+app.post("/reaction", async (req, res) => {
   try {
-    const {  productId, likeCount, dizlace, views } = req.body;
+    const { deviceId, productId, likeCount = 0, dizlace = 0, views = 0 } = req.body;
 
-    const update = {
-      $set: {
-        likeCount: likeCount || 0,
-        dizlace: dizlace || 0,
-      }
-    };
+  
+    let record = await Reaction.findOne({ deviceId, productId });
 
-    if (views && views > 0) {
-      update.$inc = { views: views };
+    if (record) {
+  
+      if (views > 0) record.views += views;
+      record.likeCount = likeCount;
+      record.dizlace = dizlace;
+      await record.save();
+    } else {
+  
+      record = await Lices.create({ deviceId, productId, likeCount, dizlace, views });
     }
 
-    // апдейтим только по продукту
-    const updated = await Lices.findOneAndUpdate(
-      { productId }, // вместо deviceId
-      update,
-      { new: true, upsert: true }
-    );
-
-    res.json(updated);
+    res.json(record);
   } catch (err) {
-    res.status(500).json({ error: 'Не удалось сохранить реакцию' });
+    console.error(err);
+    res.status(500).json({ error: "Не удалось сохранить реакцию" });
   }
 });
 
