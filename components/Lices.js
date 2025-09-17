@@ -44,9 +44,9 @@ app.get('/lice/:productId', async (req, res) => {
 
 app.post("/reaction", async (req, res) => {
   try {
-    const { deviceId, productId, likeCount = 0, dizlace = 0, views = 0 } = req.body;
+    const { deviceId, productId, likeCount = 0, dizlace = 0, views  } = req.body;
 
-  //Ros
+  
     let record = await Lices.findOne({ deviceId, productId });
 
     if (record) {
