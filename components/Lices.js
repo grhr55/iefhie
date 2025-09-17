@@ -28,23 +28,13 @@ LiceSchema.index({ deviceId: 1, productId: 1 }, { unique: true });
 const Lices = mongoose.model('Lices', LiceSchema);
 
 
+
 app.get('/lice/:productId', async (req, res) => {
   try {
-    const { productId } = req.params;
-    const stats = await Lices.aggregate([
-      { $match: { productId } },
-      { $group: {
-          _id: "$productId",
-          likeCount: { $sum: "$likeCount" },
-          dizlace: { $sum: "$dizlace" },
-          views: { $sum: "$views" }
-      }},
-      { $project: { _id: 0, productId: "$_id", likeCount: 1, dizlace: 1, views: 1 } }
-    ]);
-    res.json(stats[0] || { productId, likeCount: 0, dizlace: 0, views: 0 });
+    const productId = await Portf.find().sort({ createdAt: -1 });
+    res.json(productId);
   } catch (err) {
-    console.error('Ошибка при получении данных:', err);
-    res.status(500).json({ error: 'Не удалось получить данные' });
+    res.status(500).json({ error: err.message });
   }
 });
 
