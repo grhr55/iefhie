@@ -60,8 +60,9 @@ const Portf = mongoose.model('Portfol', PortfolSchema);
 
 const UPLOAD_DIR = path.join(__dirname, 'img');
 
+
 if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR);
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
 
@@ -70,15 +71,14 @@ const storage = multer.diskStorage({
     cb(null, UPLOAD_DIR);
   },
   filename: (req, file, cb) => {
-   const name = path.basename(file.originalname, ext); 
-   const ext = path.extname(file.originalname);
-   cb(null, name + '-' + unique + ext);
+    const ext = path.extname(file.originalname); 
+    const name = path.basename(file.originalname, ext); 
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, `${name}-${unique}${ext}`); 
   }
 });
 
 const upload = multer({ storage });
-
-
 
 
 app.use('/img', express.static(UPLOAD_DIR));
