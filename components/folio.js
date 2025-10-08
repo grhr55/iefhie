@@ -8,7 +8,7 @@ const path     = require('path');
 const fs       = require('fs');
 
 
-app.use('/img', express.static(path.join(__dirname, '/img')))
+
 
 
 
@@ -49,12 +49,6 @@ const PortfolSchema = new mongoose.Schema({
     proizvol: { type: String, required: true },
     sozdan: { type: String, required: true },
 
-
-    
-    
-    
-    
-    
   
 },{ timestamps: true });
 
@@ -64,7 +58,7 @@ const Portf = mongoose.model('Portfol', PortfolSchema);
 
 
 
-const UPLOAD_DIR = path.join(__dirname, 'uploads');
+const UPLOAD_DIR = path.join(__dirname, 'img');
 
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR);
@@ -83,7 +77,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.use('/uploads', express.static(UPLOAD_DIR));
+
+app.use('/img', express.static(UPLOAD_DIR));
 
 
 
@@ -104,7 +99,7 @@ app.post('/porfol',
 
       let imgPath = null;
       if (req.files.img?.[0]) {
-        imgPath = '/uploads/' + req.files.img[0].filename;
+        imgPath = '/img/' + req.files.img[0].filename;
       }
 
       const product = new Portf({
@@ -140,7 +135,7 @@ app.post('/porfol',
 app.delete('/porfol/:id', async (req, res) => {
   try {
     const deleted = await Portf.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ error: 'Не найдено' });
+    if (!deleted) return res.status(404).json({ error: 'Не найено' });
     res.json(deleted);
   } catch (err) {
     res.status(500).json({ error: err.message });
