@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const  folio = require('./components/folio');
 const lices = require ('./components/Lices')
+const path = require('path')
 
 
 
@@ -9,7 +10,7 @@ const lices = require ('./components/Lices')
 const dotenv = require ('dotenv');
 
 
-
+app.use('/img', express.static(path.join(__dirname, '/img')))
 
 const app = express();
 const port = 8000;
