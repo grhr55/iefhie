@@ -15,10 +15,12 @@ const dotenv = require ('dotenv');
 const app = express();
 const port = 8000;
 
+
+app.use('/img', express.static(path.join(__dirname, 'img')))
+
 const cors = require('cors');
 app.use(cors());
 dotenv.config();
-app.use('/img', express.static(path.join(__dirname, '/img')))
 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {

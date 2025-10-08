@@ -8,6 +8,10 @@ const path     = require('path');
 const fs       = require('fs');
 
 
+app.use('/img', express.static(path.join(__dirname, '/img')))
+
+
+
 app.use(cors());
 app.use(express.json());
 dotenv.config();
@@ -30,6 +34,8 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(err => {
         console.log('Ошибка подключения к MongoDB:', err);
     });
+    
+    
 
 
 const PortfolSchema = new mongoose.Schema({   
@@ -42,11 +48,17 @@ const PortfolSchema = new mongoose.Schema({
     seo: { type: String, required: true },
     proizvol: { type: String, required: true },
     sozdan: { type: String, required: true },
+
+
+    
+    
     
     
     
   
 },{ timestamps: true });
+
+
 
 const Portf = mongoose.model('Portfol', PortfolSchema);
 
@@ -120,6 +132,9 @@ app.post('/porfol',
     }
   }
 );
+
+
+
 
 
 app.delete('/porfol/:id', async (req, res) => {
