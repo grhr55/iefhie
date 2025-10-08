@@ -71,12 +71,13 @@ const storage = multer.diskStorage({
     cb(null, UPLOAD_DIR);
   },
   filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname); 
-    const name = path.basename(file.originalname, ext); 
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, `${name}-${unique}${ext}`); 
+    const ext = path.extname(file.originalname); // .jpeg, .png и т.д.
+    const name = path.basename(file.originalname, ext); // IMG_001
+    const timestamp = Date.now(); // метка времени
+    cb(null, `${name}-${timestamp}${ext}`); 
   }
 });
+
 
 const upload = multer({ storage });
 
