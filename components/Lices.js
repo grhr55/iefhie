@@ -35,6 +35,7 @@ const Lices = mongoose.model('Lices', LiceSchema);
 
 app.get('/lice/:productId', async (req, res) => {
   try {
+    
     const productId = await Lices.find().sort({ createdAt: -1 });
     res.json(productId);
   } catch (err) {

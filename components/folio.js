@@ -69,20 +69,25 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, UPLOAD_DIR);
+    
+
   },
   filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname); // .jpeg, .png и т.д.
-    const name = path.basename(file.originalname, ext); // IMG_001
-    const timestamp = Date.now(); // метка времени
+    const ext = path.extname(file.originalname); 
+    const name = path.basename(file.originalname, ext); 
+    const timestamp = Date.now(); 
     cb(null, `${name}-${timestamp}${ext}`); 
   }
 });
+
 
 
 const upload = multer({ storage });
 
 
 app.use('/img', express.static(UPLOAD_DIR));
+
+
 
 
 
