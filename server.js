@@ -45,5 +45,5 @@ app.use('/likos', lices);
 
 
 app.listen(port, () => {
-    console.log(`Сервер работает на порту ${port}`);
+    console.log(`Сервер работает  порту ${port}`);
 });
